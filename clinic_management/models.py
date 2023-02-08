@@ -12,8 +12,8 @@ class PatientPersonalInfo(models.Model):
     mobile_phone = models.IntegerField()
     address = models.TextField(null=True, blank=True)
 
-    def __str__(self) -> str:
-        return f'{self.first_name} {self.last_name}'
+    # def __str__(self) -> str:
+    #     return self.first_name + ' ' + self.last_name
 
     
 
@@ -26,7 +26,7 @@ class Medical_history(models.Model):
     hospitalization_history = models.CharField(max_length=50)
     hospitalization_cause = models.TextField(null=True, blank=True)
     medication_use = models.CharField(max_length=50)
-    patient = models.OneToOneField(PatientPersonalInfo, on_delete=models.CASCADE, primary_key=True)
+    patient = models.OneToOneField(PatientPersonalInfo, on_delete=models.CASCADE)
 
 
 class TreatmentSession(models.Model):
@@ -36,4 +36,4 @@ class TreatmentSession(models.Model):
     payment = models.IntegerField()
     balance = models.IntegerField()
     doctor = models.CharField(max_length=50)
-    patient = models.OneToOneField(PatientPersonalInfo, on_delete=models.CASCADE, primary_key=True)
+    patient = models.OneToOneField(PatientPersonalInfo, on_delete=models.CASCADE)
