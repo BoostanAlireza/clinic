@@ -5,11 +5,15 @@ from . import views
 
 
 router = routers.DefaultRouter()
-router.register('patient', views.PatientPersonalInfoViewSet, basename='patient')
-router.register('medhistory', views.MedicalHistoryViewSet, basename='medical-history')
-router.register('treatsession', views.TreatmentSessionViewSet, basename='treatment-session')
+router.register('patients', views.PatientPersonalInfoViewSet, basename='patient')
+# router.register('medhistory', views.MedicalHistoryViewSet, basename='medical-history')
+# router.register('treatsession', views.TreatmentSessionViewSet, basename='treatment-session')
 
-urlpatterns = router.urls
+
+patient_router = routers.NestedDefaultRouter(router, 'patients', lookup='patient')
+patient_router.register('medhistory', views.MedicalHistoryViewSet,  basename='medical-history')
+patient_router.register('treatmentsession', views.TreatmentSessionViewSet, basename='treatment-session')
+urlpatterns = router.urls + patient_router.urls
 
 
 
