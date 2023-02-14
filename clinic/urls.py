@@ -18,6 +18,7 @@ from django.urls import path, include
 import debug_toolbar
 
 urlpatterns = [
+    path('', include('clinic_management.urls')),
     path('admin/', admin.site.urls),
     path('clinic_management/', include('clinic_management.urls')),
     path('__debug__/', include(debug_toolbar.urls))
