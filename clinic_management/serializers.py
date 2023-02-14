@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import PatientPersonalInfo, Medical_history, TreatmentSession
+from .models import PatientPersonalInfo, MedicalHistory, TreatmentSession
 
 
 class PatientPersonalInfoSerializer(serializers.ModelSerializer):
@@ -8,14 +8,24 @@ class PatientPersonalInfoSerializer(serializers.ModelSerializer):
         fields = ['id', 'file_number', 'first_name', 'last_name', 'father_name',
                 'identification_number', 'birth_date', 'phone', 'mobile_phone']
 
- 
+    
 class MedicalHistorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Medical_history
-        fields = ['ailment', 'hospitalization_history', 'hospitalization_cause', 'medication_use']
+        model = MedicalHistory
+        fields = ['id', 'ailment', 'hospitalization_history', 'hospitalization_cause', 'medication_use']
+
+    def create(self, validated_data):
+        patient_id = self.context['patient_id']
+        return MedicalHistory.objects.create(patient_id=patient_id, **validated_data)
+ 
+
 
 
 class TreatmentSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = TreatmentSession
-        fields = [ 'date', 'doctor', 'description', 'invoice', 'payment', 'balance']
+        fields = ['id', 'date', 'doctor', 'description', 'invoice', 'payment', 'balance']
+
+    def create(self, validated_data): 
+        patient_id = self.context['patient_id']
+        return TreatmentSession.objects.create(patient_id=patient_id, **validated_data)
